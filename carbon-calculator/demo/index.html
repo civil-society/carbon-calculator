@@ -1,29 +1,45 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-GB">
-<head>
-  <meta charset="utf-8">
-  <style>
-    body {
-      background: #fafafa;
-    }
-  </style>
-</head>
-<body>
-  <div id="demo"></div>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        background: #fafafa;
+      }
+    </style>
+    <!-- material icon fonts for new md components -->
+    <!-- outlined -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1"
+      rel="stylesheet"
+    />
+    <!-- rounded -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL@20..48,100..700,0..1"
+      rel="stylesheet"
+    />
+    <!-- sharp -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL@20..48,100..700,0..1"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="demo"></div>
 
-  <script type="module">
-    import { html, render } from 'lit';
-    import '../dist/src/carbon-calculator.js';
+    <script type="module">
+      import { html, render } from "lit";
+      import "../dist/src/carbon-calculator.js";
 
-    const title = 'Hello owc World!';
-    render(
-      html`
-        <carbon-calculator .title=${title}>
-          some light-dom
-        </carbon-calculator>
-      `,
-      document.querySelector('#demo')
-    );
-  </script>
-</body>
+      const title = "Hello owc World!";
+      render(
+        html`
+          <carbon-calculator .title=${title}>
+            some light-dom
+          </carbon-calculator>
+        `,
+        document.querySelector("#demo")
+      );
+    </script>
+  </body>
 </html>

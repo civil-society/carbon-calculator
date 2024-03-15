@@ -1,1 +1,1 @@
-export { CarbonCalculator } from './CarbonCalculator.js';
+export { CarbonCalculator } from "./carbon-calculator.js";

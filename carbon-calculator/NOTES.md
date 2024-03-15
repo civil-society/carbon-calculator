@@ -1,6 +1,13 @@
 typescript npm for dummies with tsup
 https://javascript.plainenglish.io/how-to-create-a-typescript-npm-library-for-dummies-6633f2506a17
 
+tsup typescript packaging tutorial with examples
+https://plainenglish.io/blog/how-do-you-clean-the-subjects-in-rxjs
+https://github.com/officialrajdeepsingh/tsup-tutorial/blob/main/tsup.config.ts
+
+tsup tutorial
+https://antfu.me/posts/publish-esm-and-cjs
+
 https://dev.to/101arrowz/creating-a-modern-js-library-package-json-and-dependencies-5ek9
 https://betterprogramming.pub/the-pragmatic-guide-to-your-first-javascript-library-516a7b08c677
 https://rollupjs.org/tutorial/
