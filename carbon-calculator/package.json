@@ -1,6 +1,6 @@
 {
   "name": "@civil-society/carbon-calculator",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "A webcomponent for calculating a carbon offset tax",  
   "main": "dist/carbon-calculator.mjs",
   "module": "dist/carbon-calculator.mjs",

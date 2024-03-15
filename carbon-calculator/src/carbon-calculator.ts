@@ -25,8 +25,19 @@ export class CarbonCalculator extends LitElement {
           width: 60ch;
         }
 
+        md-tabs {
+          min-width: 30ch;
+        }
+
         md-primary-tab {
           max-width: 60px;
+        }
+
+        .empty {
+          padding: 18px;
+          font-family: "Roboto", sans-serif;
+          font-size: 14px;
+          font-weight: 400;
         }
       `,
     ];
@@ -82,6 +93,7 @@ export class CarbonCalculator extends LitElement {
           id="airTravelers"
           label="How many travelers?"
           value="1"
+          type="number"
         ></md-outlined-text-field>
       </div>
       <div>
@@ -89,7 +101,8 @@ export class CarbonCalculator extends LitElement {
           id="airMiles"
           label="Trip mileage"
           placeholder="total miles"
-          @input=${this.validate}
+          type="number"
+          @input=${this.validateAir}
         ></md-outlined-text-field>
       </div>
 
@@ -110,7 +123,7 @@ export class CarbonCalculator extends LitElement {
         </label>
       </div> -->
       <div>
-        <md-filled-button @click=${this.clickAddAir}
+        <md-filled-button ?disabled=${!this.airValid} @click=${this.clickAddAir}
           >Calculate Offset</md-filled-button
         >
       </div>
@@ -129,30 +142,35 @@ export class CarbonCalculator extends LitElement {
     return html`<div class="l-column">
       ${hasItems(this.cart)
         ? html`<md-list>
-            ${this.cart.map(
-              (item) => html`<md-list-item>
-                <div slot="headline">${item.title}</div>
-                <div slot="supporting-text">
-                  ${item.carbon?.toFixed(2)}lbs carbon
-                </div>
-                <div slot="trailing-supporting-text">
-                  $${item.cost?.toFixed(2)}
-                </div>
-                <md-icon slot="end">remove_circle</md-icon>
-              </md-list-item>`
-            )}
-          </md-list>`
-        : html`<div>no items</div>`}
-
-      <div>
-        <md-filled-button ?disabled=${!hasItems(this.cart)}
-          >Checkout</md-filled-button
-        >
-      </div>
+              ${this.cart.map(
+                (item) => html`<md-list-item>
+                  <div slot="headline">${item.title}</div>
+                  <div slot="supporting-text">
+                    ${item.carbon?.toFixed(2)}lbs carbon
+                  </div>
+                  <div slot="trailing-supporting-text">
+                    $${item.cost?.toFixed(2)}
+                  </div>
+                  <md-icon slot="end" @click=${() => this.removeCartItem(item)}
+                    >remove_circle</md-icon
+                  >
+                </md-list-item> `
+              )}
+            </md-list>
+            <div>
+              <md-filled-button
+                href="https://stripe.com"
+                target="_blank"
+                ?disabled=${!hasItems(this.cart)}
+                >Checkout</md-filled-button
+              >
+            </div>`
+        : html`<div class="empty">No items in cart</div>`}
     </div>`;
   }
 
   /* ------------- properties ------------- */
+
   @query("#airTravelers")
   airTravelers?: MdOutlinedTextField;
 
@@ -171,9 +189,21 @@ export class CarbonCalculator extends LitElement {
   @state()
   cart: Array<CartItem> = [];
 
+  @state()
+  airValid: boolean = false;
+
   /* ------------- javascript ------------- */
 
-  validate() {}
+  validateAir() {
+    const numTravelers = Number(this.airTravelers?.value);
+    const numMiles = Number(this.airMiles?.value);
+    this.airValid =
+      !(typeof numTravelers === "undefined") &&
+      !(typeof numMiles === "undefined") &&
+      numTravelers != 0 &&
+      numMiles != 0;
+    this.requestUpdate();
+  }
 
   clickAddAir() {
     // get the data
@@ -198,5 +228,11 @@ export class CarbonCalculator extends LitElement {
     item.carbon =
       passengers * miles * this.poundsPerAirMile * (roundtrip ? 1 : 2);
     return item;
+  }
+
+  removeCartItem(item: CartItem) {
+    var i = this.cart.indexOf(item);
+    this.cart.splice(i, 1);
+    this.requestUpdate();
   }
 }
