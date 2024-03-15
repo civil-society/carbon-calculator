@@ -1,0 +1,33 @@
+{
+  "name": "@civilsociety/carbon-calculator",
+  "version": "1.0.0",
+  "description": "A webcomponent for calculating a carbon offset tax",  
+  "main": "index.js",
+  "module": "dist/index.js",
+  "types":"dist/index.d.ts",
+  "files":[
+    "/dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+
+    "analyze": "cem analyze --litelement",
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",    
+    "prepublish": "tsc && npm run analyze -- --exclude dist"
+  },
+  "license": "ISC",
+  "author": "carbon-calculator",
+  "keywords":["climate", "carbon tax"],
+  "dependencies": {
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.4.17",
+    "@web/dev-server": "^0.1.25",
+    "concurrently": "^8.2.2",    
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.2",
+    "tsup":"^8.0.2"
+  },
+  "customElements": "custom-elements.json"
+}

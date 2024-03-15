@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    //"target": "es2018",
+    "target": "es2020",
+    // https://gist.github.com/aleclarson/9900ed2a9a3119d865286b218e14d226
+    // esnext breaks the webcomponent
+    // "target": "esnext", 
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "lib": ["es2017", "dom"],
+    "strict": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "inlineSources": true,
+    "rootDir": "./",
+    "declaration": true,
+    //"incremental": true interferes with tsup build
+  },
+  "include": ["**/*.ts"]
+}
