@@ -89,6 +89,7 @@ export class CarbonCalculator extends LitElement {
           id="airMiles"
           label="Trip mileage"
           placeholder="total miles"
+          @input=${this.validate}
         ></md-outlined-text-field>
       </div>
 
@@ -171,6 +172,8 @@ export class CarbonCalculator extends LitElement {
   cart: Array<CartItem> = [];
 
   /* ------------- javascript ------------- */
+
+  validate() {}
 
   clickAddAir() {
     // get the data
