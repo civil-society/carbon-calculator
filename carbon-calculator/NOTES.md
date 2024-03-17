@@ -1,3 +1,7 @@
+Offset platforms
+UN: https://offset.climateneutralnow.org/footprintcalc
+Fingerlakes: https://fingerlakesclimatefund.org/
+
 typescript npm for dummies with tsup
 https://javascript.plainenglish.io/how-to-create-a-typescript-npm-library-for-dummies-6633f2506a17
 
@@ -17,3 +21,6 @@ https://zellwk.com/blog/ignoring-files-from-npm-package/
 https://www.freecodecamp.org/news/how-to-create-and-publish-your-first-npm-package/
 https://www.freecodecamp.org/news/how-to-update-npm-dependencies/
 https://pauloe-me.medium.com/typescript-npm-package-publishing-a-beginners-guide-40b95908e69c
+
+add to squarespace?
+https://www.alexdwilson.dev/learning-in-public/put-web-components-in-your-square-space-site-with-angular-15

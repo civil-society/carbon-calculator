@@ -3,16 +3,22 @@ import { customElement, property, state, query } from "lit/decorators.js";
 import { choose } from "lit/directives/choose.js";
 import { sharedCSS } from "./carbon-calculator-css";
 import { CartItem } from "./CartItem";
-import { MdOutlinedTextField } from "@material/web/textfield/outlined-text-field";
+import { hasItems } from "./array-functions";
+import { CityDialog } from "./city-dialog";
+import { AirCalculator } from "./air-calculator";
+import { CarCalculator } from "./car-calculator";
+
+import "./city-dialog";
+import "./air-calculator";
+import "./car-calculator";
+import "./home-calculator";
+import "./quick-calculator";
+
 import "@material/web/button/filled-button";
-import "@material/web/checkbox/checkbox";
 import "@material/web/icon/icon";
-import "@material/web/list/list";
-import "@material/web/list/list-item";
 import "@material/web/textfield/outlined-text-field";
 import "@material/web/tabs/tabs";
 import "@material/web/tabs/primary-tab";
-import { hasItems } from "./array-functions";
 
 @customElement("carbon-calculator")
 export class CarbonCalculator extends LitElement {
@@ -33,6 +39,10 @@ export class CarbonCalculator extends LitElement {
           max-width: 60px;
         }
 
+        main {
+          margin: 24px;
+        }
+
         .empty {
           padding: 18px;
           font-family: "Roboto", sans-serif;
@@ -46,96 +56,82 @@ export class CarbonCalculator extends LitElement {
   /* ------------- html ------------- */
 
   render() {
-    return html`<div class="l-column">
-      <md-tabs>
-        <md-primary-tab
-          @click=${() => {
-            this.tab = "air";
-          }}
-          ><md-icon slot="icon">travel</md-icon>Air</md-primary-tab
-        >
-        <md-primary-tab
-          @click=${() => {
-            this.tab = "car";
-          }}
-          ><md-icon slot="icon">directions_car</md-icon>Car</md-primary-tab
-        >
-        <md-primary-tab
-          @click=${() => {
-            this.tab = "home";
-          }}
-          ><md-icon slot="icon">home</md-icon>Home</md-primary-tab
-        >
-        <div class="l-spacer"></div>
-        <md-primary-tab
-          @click=${() => {
-            this.tab = "cart";
-          }}
-          ><md-icon slot="icon">shopping_cart</md-icon>Cart</md-primary-tab
-        >
-      </md-tabs>
+    return html`<div>
+        <md-tabs>
+          <md-primary-tab
+            @click=${() => {
+              this.tab = "air";
+            }}
+            ><md-icon slot="icon">travel</md-icon>Air</md-primary-tab
+          >
+          <md-primary-tab
+            @click=${() => {
+              this.tab = "car";
+            }}
+            ><md-icon slot="icon">directions_car</md-icon>Car</md-primary-tab
+          >
+          <md-primary-tab
+            @click=${() => {
+              this.tab = "home";
+            }}
+            ><md-icon slot="icon">home</md-icon>Home</md-primary-tab
+          >
+          <md-primary-tab
+            @click=${() => {
+              this.tab = "quick";
+            }}
+            ><md-icon slot="icon">bolt</md-icon>Quick</md-primary-tab
+          >
+          <div class="l-spacer"></div>
+          <md-primary-tab
+            @click=${() => {
+              this.tab = "cart";
+            }}
+            ><md-icon slot="icon">shopping_cart</md-icon>Cart</md-primary-tab
+          >
+        </md-tabs>
 
-      <div>
-        ${choose(this.tab, [
-          ["air", () => this.renderAir()],
-          ["car", () => this.renderCar()],
-          ["home", () => this.renderHome()],
-          ["cart", () => this.renderCart()],
-        ])}
+        <main>
+          ${choose(this.tab, [
+            ["air", () => this.renderAir()],
+            ["car", () => this.renderCar()],
+            ["home", () => this.renderHome()],
+            ["quick", () => this.renderQuick()],
+            ["cart", () => this.renderCart()],
+          ])}
+        </main>
       </div>
-    </div> `;
+      <city-dialog id="cityDialog"></city-dialog> `;
   }
 
   renderAir() {
-    return html`<div class="l-column">
-      <div>
-        <md-outlined-text-field
-          id="airTravelers"
-          label="How many travelers?"
-          value="1"
-          type="number"
-        ></md-outlined-text-field>
-      </div>
-      <div>
-        <md-outlined-text-field
-          id="airMiles"
-          label="Trip mileage"
-          placeholder="total miles"
-          type="number"
-          @input=${this.validateAir}
-        ></md-outlined-text-field>
-      </div>
-
-      <!-- <div>or</div>
-
-      <div>
-        <md-outlined-text-field
-          label="Starting location"
-        ></md-outlined-text-field>
-      </div>
-      <div>
-        <md-outlined-text-field label="End location"></md-outlined-text-field>
-      </div>
-      <div class="l-row">
-        <label>
-          <md-checkbox touch-target="wrapper" checked></md-checkbox>
-          Round trip?
-        </label>
-      </div> -->
-      <div>
-        <md-filled-button ?disabled=${!this.airValid} @click=${this.clickAddAir}
-          >Calculate Offset</md-filled-button
-        >
-      </div>
-    </div>`;
+    return html`<air-calculator
+      id="airCalculator"
+      @clickStartCity=${this.clickAirStartCity}
+      @clickEndCity=${this.clickAirEndCity}
+      @offset=${this.addAirItem}
+    ></air-calculator>`;
   }
 
   renderCar() {
-    return html`Car`;
+    return html`<car-calculator
+      id="carCalculator"
+      @clickStartCity=${this.clickCarStartCity}
+      @clickEndCity=${this.clickCarEndCity}
+      @offset=${this.addCarItem}
+    ></car-calculator>`;
   }
 
   renderHome() {
-    return html`Home`;
+    return html`<home-calculator
+      @offset=${this.addHomeItem}
+    ></home-calculator>`;
+  }
+
+  renderQuick() {
+    return html`<quick-calculator
+      @offset=${this.addQuickItem}
+    ></quick-calculator>`;
   }
 
   renderCart() {
@@ -171,63 +167,208 @@ export class CarbonCalculator extends LitElement {
 
   /* ------------- properties ------------- */
 
-  @query("#airTravelers")
-  airTravelers?: MdOutlinedTextField;
-
-  @query("#airMiles")
-  airMiles?: MdOutlinedTextField;
-
   @state()
-  dollarsPerAirMile: number = 0.01;
+  tab: "air" | "car" | "home" | "quick" | "cart" = "air";
 
-  @state()
-  poundsPerAirMile: number = 0.56;
+  @query("#cityDialog")
+  cityDialog?: CityDialog;
 
-  @state()
-  tab: "air" | "car" | "home" | "cart" = "air";
+  @query("#airCalculator")
+  airCalculator?: AirCalculator;
+
+  @query("#carCalculator")
+  carCalculator?: CarCalculator;
 
   @state()
   cart: Array<CartItem> = [];
 
+  // calculations
+
+  // @state()
+  // dollarsPerAirMile: number = 0.004875;
+
+  // tax
   @state()
-  airValid: boolean = false;
+  dollarsPerPound: number = 0.0125;
+
+  // amount of carbon for mile of air travel
+  @state()
+  poundsPerAirMile: number = 0.56;
+
+  // amount of carbon for car gasoline
+  @state()
+  poundsPerGallon: number = 39.28;
+
+  // home
+
+  @state()
+  carbonPerPropane: number = 12.17;
+
+  @state()
+  carbonPerElectricity: number = 0.233;
+
+  @state()
+  carbonPerGas: number = 25.2;
+
+  @state()
+  carbonPerOil: number = 22.37;
+
+  // quick
+
+  @state()
+  carbonPerCar: number = 722;
+
+  @state()
+  carbonPerAir: number = 425;
+
+  @state()
+  carbonPerHome: number = 1240;
 
   /* ------------- javascript ------------- */
 
-  validateAir() {
-    const numTravelers = Number(this.airTravelers?.value);
-    const numMiles = Number(this.airMiles?.value);
-    this.airValid =
-      !(typeof numTravelers === "undefined") &&
-      !(typeof numMiles === "undefined") &&
-      numTravelers != 0 &&
-      numMiles != 0;
-    this.requestUpdate();
+  // AIR
+
+  async clickAirStartCity() {
+    const city = await this.cityDialog?.show();
+    if (!city) return;
+    this.airCalculator!.setStartCity(city);
   }
 
-  clickAddAir() {
-    // get the data
-    const numTravelers = Number(this.airTravelers?.value);
-    const numMiles = Number(this.airMiles?.value);
-    if (!numTravelers) throw "No travelers";
-    if (!numMiles) throw "No miles";
-
-    let item = this.calculateAir(numTravelers, numMiles, false);
-    this.cart.push(item);
-    // clear the items
-
-    this.tab = "cart";
-    this.requestUpdate();
+  async clickAirEndCity() {
+    const city = await this.cityDialog?.show();
+    if (!city) return;
+    this.airCalculator!.setEndCity(city);
   }
 
-  calculateAir(passengers: number, miles: number, roundtrip: boolean) {
+  addAirItem(event: CustomEvent) {
+    const travelers = event.detail.travelers;
+    const miles = event.detail.miles;
+    const roundtrip = event.detail.roundtrip;
+    const item = this.calculateAir(travelers, miles, roundtrip);
+    this.addCartItem(item);
+  }
+
+  calculateAir(
+    passengers: number,
+    miles: number,
+    roundtrip: boolean
+  ): CartItem {
+    const carbon =
+      passengers * miles * this.poundsPerAirMile * (roundtrip ? 2 : 1);
     let item = new CartItem();
     item.title = "Plane trip";
-    item.cost =
-      passengers * miles * this.dollarsPerAirMile * (roundtrip ? 1 : 2);
-    item.carbon =
-      passengers * miles * this.poundsPerAirMile * (roundtrip ? 1 : 2);
+    item.carbon = carbon;
+    item.cost = Math.max(carbon * this.dollarsPerPound, 0.01);
     return item;
+  }
+
+  // CAR
+
+  async clickCarStartCity() {
+    const city = await this.cityDialog?.show();
+    if (!city) return;
+    this.carCalculator!.setStartCity(city);
+  }
+
+  async clickCarEndCity() {
+    const city = await this.cityDialog?.show();
+    if (!city) return;
+    this.carCalculator!.setEndCity(city);
+  }
+
+  addCarItem(event: CustomEvent) {
+    const mpg = event.detail.mpg;
+    const miles = event.detail.miles;
+    const roundtrip = event.detail.roundtrip;
+    const item = this.calculateCar(miles, mpg, roundtrip);
+    this.addCartItem(item);
+  }
+
+  calculateCar(miles: number, mpg: number, roundtrip: boolean): CartItem {
+    const carbon = (miles / mpg) * (roundtrip ? 2 : 1) * this.poundsPerGallon;
+    let item = new CartItem();
+    item.title = "Car trip";
+    item.carbon = carbon;
+    item.cost = Math.max(carbon * this.dollarsPerPound, 0.01);
+    return item;
+  }
+
+  // HOME
+
+  addHomeItem(event: CustomEvent) {
+    const propane = event.detail.propane;
+    const electricity = event.detail.electricity;
+    const gas = event.detail.gas;
+    const oil = event.detail.oil;
+    const item = this.calculateHome(propane, electricity, gas, oil);
+    this.addCartItem(item);
+  }
+
+  calculateHome(
+    propane: number,
+    electricity: number,
+    gas: number,
+    oil: number
+  ): CartItem {
+    const carbon =
+      propane * this.carbonPerPropane +
+      electricity * this.carbonPerElectricity +
+      gas * this.carbonPerGas +
+      oil * this.carbonPerOil;
+    let item = new CartItem();
+    item.title = "Home Energy Use";
+    item.carbon = carbon;
+    item.cost = Math.max(carbon * this.dollarsPerPound, 0.01);
+    return item;
+  }
+
+  // QUICK
+
+  addQuickItem(event: CustomEvent) {
+    const type = event.detail.type;
+    const time = event.detail.time;
+    const item = this.calculateQuick(type, time);
+    this.addCartItem(item);
+  }
+
+  calculateQuick(
+    type: "home" | "air" | "car",
+    time: "year" | "quarter" | "month"
+  ): CartItem {
+    let carbon = 0;
+    let title = "";
+    if (type == "car") {
+      carbon = this.carbonPerCar;
+      title = "Car Travel";
+    } else if (type == "air") {
+      carbon = this.carbonPerAir;
+    } else if (type == "home") {
+      carbon = this.carbonPerHome;
+    }
+
+    if (time == "month") {
+      title = title + " 1 Month";
+    } else if (time == "quarter") {
+      carbon = carbon * 3;
+      title = title + " 3 Months";
+    } else if (time == "year") {
+      carbon = carbon * 12;
+      title = title + " 1 Year";
+    }
+
+    let item = new CartItem();
+    item.title = title;
+    item.carbon = carbon;
+    item.cost = Math.max(carbon * this.dollarsPerPound, 0.01);
+    return item;
+  }
+
+  // CART
+
+  addCartItem(item: CartItem) {
+    this.cart.push(item);
+    this.tab = "cart";
+    this.requestUpdate();
   }
 
   removeCartItem(item: CartItem) {

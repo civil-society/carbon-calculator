@@ -10,7 +10,7 @@
     "noEmitOnError": true,
     "lib": ["es2017", "dom"],
     "strict": true,
-    "esModuleInterop": false,
+    "esModuleInterop": false, 
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -20,6 +20,7 @@
     "rootDir": "./",
     "declaration": true,
     //"incremental": true interferes with tsup build
+    "resolveJsonModule":true // for cities.json
   },
   "include": ["**/*.ts"]
 }
