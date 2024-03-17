@@ -1,6 +1,4 @@
 import cities from "cities.json" assert { type: "json" };
-import { Haversine, UnitOfDistance, DDPoint } from "haversine-ts";
-import { DistanceFrom as distFrom } from "distance-from";
 
 export class City {
   name: string = "";
