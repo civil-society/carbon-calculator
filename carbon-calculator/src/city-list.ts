@@ -1,5 +1,17 @@
 // import cities from "cities.json" assert { type: "json" };
-import { cities } from "./cities";
+import { citiesA } from "./data/cities-a";
+import { citiesB } from "./data/cities-b";
+import { citiesC } from "./data/cities-c";
+import { citiesD } from "./data/cities-d";
+import { citiesE } from "./data/cities-e";
+import { citiesF } from "./data/cities-f";
+import { citiesG } from "./data/cities-g";
+import { citiesH } from "./data/cities-h";
+import { citiesI } from "./data/cities-i";
+import { citiesJ } from "./data/cities-j";
+import { citiesK } from "./data/cities-k";
+import { citiesL } from "./data/cities-l";
+import { citiesM } from "./data/cities-m";
 
 export class City {
   name: string = "";
@@ -17,7 +29,21 @@ export class CityList {
   _cities: Array<any> = [];
 
   constructor() {
-    this._cities = cities as Array<any>;
+    this._cities = [
+      ...citiesA,
+      ...citiesB,
+      ...citiesC,
+      ...citiesD,
+      ...citiesE,
+      ...citiesF,
+      ...citiesG,
+      ...citiesH,
+      ...citiesI,
+      ...citiesJ,
+      ...citiesK,
+      ...citiesL,
+      ...citiesM,
+    ];
 
     // for(var i = 0; i < cities.length; i++)
 

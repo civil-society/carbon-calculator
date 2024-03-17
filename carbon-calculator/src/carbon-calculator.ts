@@ -244,6 +244,7 @@ export class CarbonCalculator extends LitElement {
   @state()
   poundsPerAirMile: number = 0.56;
 
+  // Car
   // amount of carbon for car gasoline
   @state()
   poundsPerGallon: number = 39.28;
