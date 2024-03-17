@@ -1,4 +1,5 @@
-import cities from "cities.json" assert { type: "json" };
+// import cities from "cities.json" assert { type: "json" };
+import { cities } from "./cities";
 
 export class City {
   name: string = "";

@@ -123,14 +123,12 @@ export class CarCalculator extends LitElement {
     this.startCity = city;
     this.startCityField!.value = this.getCityString(city);
     this.estimateMiles();
-    this.validateCar();
   }
 
   setEndCity(city: City) {
     this.endCity = city;
     this.endCityField!.value = this.getCityString(city);
     this.estimateMiles();
-    this.validateCar();
   }
 
   getCityString(city: City) {
@@ -140,8 +138,9 @@ export class CarCalculator extends LitElement {
   async estimateMiles() {
     if (!this.startCity) return;
     if (!this.endCity) return;
-    const dist =
-      CityList.getDistanceBetweenCities(this.startCity, this.endCity) * 1.2;
+    const dist = Math.round(
+      CityList.getDistanceBetweenCities(this.startCity, this.endCity) * 1.2
+    );
     this.milesField!.value = dist.toString();
 
     // console.log("SF: 37.7749° N, 122.4194° W");
@@ -150,6 +149,7 @@ export class CarCalculator extends LitElement {
     // console.log(this.airStartCity);
     // console.log(this.airEndCity);
     // console.log(dist);
+    this.validateCar();
   }
 
   validateCar() {

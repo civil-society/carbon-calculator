@@ -120,11 +120,13 @@ export class AirCalculator extends LitElement {
   setStartCity(city: City) {
     this.airStartCity = city;
     this.airStart!.value = this.getCityString(city);
+    this.estimateMiles();
   }
 
   setEndCity(city: City) {
     this.airEndCity = city;
     this.airEnd!.value = this.getCityString(city);
+    this.estimateMiles();
   }
 
   getCityString(city: City) {
@@ -134,9 +136,8 @@ export class AirCalculator extends LitElement {
   async estimateMiles() {
     if (!this.airStartCity) return;
     if (!this.airEndCity) return;
-    const dist = CityList.getDistanceBetweenCities(
-      this.airStartCity,
-      this.airEndCity
+    const dist = Math.round(
+      CityList.getDistanceBetweenCities(this.airStartCity, this.airEndCity)
     );
     this.airMiles!.value = dist.toString();
     this.validateAir();

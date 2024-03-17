@@ -1,5 +1,10 @@
 import { css } from "lit";
 
+/* 
+module css tutorial
+https://spaceninja.com/blog/2018/what-is-modular-css/ 
+*/
+
 export const typography = css`
   :host {
     /* material 3 tokens: https://m3.material.io/styles/typography/tokens */
@@ -229,10 +234,22 @@ export const layout = css`
   }
 `;
 
+export const helper = css`
+  .unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+`;
+
 export const sharedCSS = css`
   ${typography}
   ${colors}  
   ${spacing}
   ${baseComponents}
   ${layout}
+  ${helper}
 `;

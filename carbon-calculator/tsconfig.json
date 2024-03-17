@@ -20,7 +20,7 @@
     "rootDir": "./",
     "declaration": true,
     //"incremental": true interferes with tsup build
-    "resolveJsonModule":true // for cities.json
+    // "resolveJsonModule":true // for cities.json
   },
   "include": ["**/*.ts"]
 }

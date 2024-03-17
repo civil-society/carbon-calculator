@@ -2,9 +2,13 @@ import { LitElement, html, css } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { MdDialog } from "@material/web/dialog/dialog";
 import { sharedCSS } from "./carbon-calculator-css";
-import "@material/web/dialog/dialog";
 import { City, CityList } from "./city-list";
 import { MdOutlinedTextField } from "@material/web/textfield/outlined-text-field";
+
+import "@material/web/dialog/dialog";
+import "@material/web/list/list";
+import "@material/web/list/list-item";
+import "@material/web/textfield/outlined-text-field";
 
 @customElement("city-dialog")
 export class CityDialog extends LitElement {
@@ -23,9 +27,6 @@ export class CityDialog extends LitElement {
           width: inherit;
           min-width: inherit;
           --md-dialog-container-color: white;
-        }
-        md-list {
-          --md-list-container-color: white;
         }
       `,
     ];
@@ -46,10 +47,10 @@ export class CityDialog extends LitElement {
           <md-list>
             ${this.citiesHint.map(
               (city) =>
-                html`<md-menu-item @click=${() => this.selectCity(city)}
-                  ><div slot="headline">
+                html`<md-list-item @click=${() => this.selectCity(city)}
+                  ><div class="unselectable" slot="headline">
                     ${city.name} ${city.admin1} ${city.country}
-                  </div></md-menu-item
+                  </div></md-list-item
                 >`
             )}
           </md-list>
