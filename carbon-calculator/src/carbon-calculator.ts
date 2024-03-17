@@ -28,11 +28,8 @@ export class CarbonCalculator extends LitElement {
       css`
         :host {
           display: block;
-          width: 60ch;
-        }
-
-        md-tabs {
-          min-width: 30ch;
+          max-width: 60ch;
+          min-width: 140px;
         }
 
         md-primary-tab {
@@ -49,6 +46,30 @@ export class CarbonCalculator extends LitElement {
           font-size: 14px;
           font-weight: 400;
         }
+
+        nav {
+          display: none;
+          border-bottom: 1px solid #ccc;
+        }
+        .nav-item {
+          padding: 6px 12px;
+          font-weight: 400;
+        }
+        .nav-item:hover {
+          background-color: #ddd;
+        }
+        .nav-item[selected] {
+          font-weight: 600;
+        }
+
+        @media only screen and (max-width: 330px) {
+          md-tabs {
+            display: none;
+          }
+          nav {
+            display: block;
+          }
+        }
       `,
     ];
   }
@@ -56,52 +77,80 @@ export class CarbonCalculator extends LitElement {
   /* ------------- html ------------- */
 
   render() {
-    return html`<div>
-        <md-tabs>
-          <md-primary-tab
-            @click=${() => {
-              this.tab = "air";
-            }}
-            ><md-icon slot="icon">travel</md-icon>Air</md-primary-tab
-          >
-          <md-primary-tab
-            @click=${() => {
-              this.tab = "car";
-            }}
-            ><md-icon slot="icon">directions_car</md-icon>Car</md-primary-tab
-          >
-          <md-primary-tab
-            @click=${() => {
-              this.tab = "home";
-            }}
-            ><md-icon slot="icon">home</md-icon>Home</md-primary-tab
-          >
-          <md-primary-tab
-            @click=${() => {
-              this.tab = "quick";
-            }}
-            ><md-icon slot="icon">bolt</md-icon>Quick</md-primary-tab
-          >
-          <div class="l-spacer"></div>
-          <md-primary-tab
-            @click=${() => {
-              this.tab = "cart";
-            }}
-            ><md-icon slot="icon">shopping_cart</md-icon>Cart</md-primary-tab
-          >
-        </md-tabs>
+    return html`
+      <md-tabs>
+        <md-primary-tab
+          @click=${() => {
+            this.tab = "air";
+          }}
+          ><md-icon slot="icon">travel</md-icon>Air</md-primary-tab
+        >
+        <md-primary-tab
+          @click=${() => {
+            this.tab = "car";
+          }}
+          ><md-icon slot="icon">directions_car</md-icon>Car</md-primary-tab
+        >
+        <md-primary-tab
+          @click=${() => {
+            this.tab = "home";
+          }}
+          ><md-icon slot="icon">home</md-icon>Home</md-primary-tab
+        >
+        <md-primary-tab
+          @click=${() => {
+            this.tab = "quick";
+          }}
+          ><md-icon slot="icon">bolt</md-icon>Quick</md-primary-tab
+        >
+        <div class="l-spacer"></div>
+        <md-primary-tab
+          @click=${() => {
+            this.tab = "cart";
+          }}
+          ><md-icon slot="icon">shopping_cart</md-icon>Cart</md-primary-tab
+        >
+      </md-tabs>
 
-        <main>
-          ${choose(this.tab, [
-            ["air", () => this.renderAir()],
-            ["car", () => this.renderCar()],
-            ["home", () => this.renderHome()],
-            ["quick", () => this.renderQuick()],
-            ["cart", () => this.renderCart()],
-          ])}
-        </main>
-      </div>
-      <city-dialog id="cityDialog"></city-dialog> `;
+      <nav>
+        ${this.renderNavItem("air", "Air")}
+        <!-- -->
+        ${this.renderNavItem("car", "Car")}
+        <!-- -->
+        ${this.renderNavItem("home", "Home")}
+        <!-- -->
+        ${this.renderNavItem("quick", "Quick")}
+        <!-- -->
+        ${this.renderNavItem("cart", "Cart")}
+      </nav>
+
+      <main>
+        ${choose(this.tab, [
+          ["air", () => this.renderAir()],
+          ["car", () => this.renderCar()],
+          ["home", () => this.renderHome()],
+          ["quick", () => this.renderQuick()],
+          ["cart", () => this.renderCart()],
+        ])}
+      </main>
+
+      <city-dialog id="cityDialog"></city-dialog>
+    `;
+  }
+
+  renderNavItem(
+    atab: "air" | "car" | "home" | "quick" | "cart",
+    title: string
+  ) {
+    return html`<div
+      class="nav-item title-medium"
+      ?selected=${this.tab == atab}
+      @click=${() => {
+        this.tab = atab;
+      }}
+    >
+      ${title}
+    </div>`;
   }
 
   renderAir() {

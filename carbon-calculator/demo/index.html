@@ -2,6 +2,10 @@
 <html lang="en-GB">
   <head>
     <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <style>
       body {
         background: #fafafa;
@@ -25,21 +29,7 @@
     />
   </head>
   <body>
-    <div id="demo"></div>
-
-    <script type="module">
-      import { html, render } from "lit";
-      import "../dist/src/carbon-calculator.js";
-
-      const title = "Hello owc World!";
-      render(
-        html`
-          <carbon-calculator .title=${title}>
-            some light-dom
-          </carbon-calculator>
-        `,
-        document.querySelector("#demo")
-      );
-    </script>
+    <carbon-calculator></carbon-calculator>
+    <script type="module" src="../dist/src/carbon-calculator.js"></script>
   </body>
 </html>
