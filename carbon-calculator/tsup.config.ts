@@ -2,7 +2,19 @@ import { defineConfig } from "tsup";
 // import tsconfig from "./tsconfig.json";
 
 export default defineConfig((options) => ({
-  entry: ["src/index.ts", "src/carbon-calculator.ts"],
+  entry: [
+    "src/index.ts",
+    "src/carbon-calculator.ts",
+    "src/air-calculator.ts",
+    "array-functions.ts",
+    "carbon-calculator-css.ts",
+    "car-calculator.ts",
+    "CartItem.ts",
+    "city-dialog.ts",
+    "city-list.ts",
+    "home-calculator.ts",
+    "quick-calculator.ts",
+  ],
   dts: true,
   outDir: "dist",
   format: ["esm"],
